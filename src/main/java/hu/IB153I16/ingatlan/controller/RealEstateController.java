@@ -102,7 +102,6 @@ public class RealEstateController {
 
         realEstate.setUser(userRepository.findByEmail(currentPrincipalName));
 
-
         realEstateRepository.save(realEstate);
         String uploadDir = URLPATH.PHOTOS_RELATIVE_PATH + realEstate.getId();
         realEstate.setPhotos(uploadDir);
@@ -134,12 +133,12 @@ public class RealEstateController {
         if (result.hasErrors() || multipartFile.length < 6){
             return "realEstate/upload";
         }
-        realEstate.setId(id);
 
         RealEstate realEstateRep = realEstateRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid movie id:" + id));
         realEstate.setUser(realEstateRep.getUser());
         realEstate.setPhotos(realEstateRep.getPhotos());
+        realEstate.setId(id);
 
         savePhoto(multipartFile,realEstateRep.getPhotos(),realEstate);
 
